@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visiosphere-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: visiosphere-backend
+  template:
+    metadata:
+      labels:
+        app: visiosphere-backend
+    spec:
+      containers:
+        - name: backend
+          image: visiosphere-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret
+                  key: api-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: visiosphere-backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
