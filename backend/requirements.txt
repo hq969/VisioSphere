@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+websockets
+pydantic
+python-multipart
+openai
+numpy
+pandas
+scikit-learn
